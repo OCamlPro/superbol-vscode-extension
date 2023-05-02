@@ -127,12 +127,33 @@ export function activate(context: vscode.ExtensionContext) {
 
 (* open Js_of_ocaml *)
 
+
 let indentRange
     ~document
     ~options:_
     ~token:_
-    ~range
   =
+    let range = 
+        let editor = Vscode.Window.activeTextEditor () in
+        let selection = Option.get editor |> Vscode.TextEditor.selection in 
+        let anchor = Vscode.Selection.anchor selection in 
+        let start_line = Vscode.Position.line anchor in 
+        let active = Vscode.Selection.active selection in     
+
+        let end_line = Vscode.Position.line active in 
+        let start_line, end_line = 
+            if start_line > end_line then end_line, start_line 
+            else
+                start_line, end_line
+        in 
+        let start_pos = Vscode.Position.make ~line:start_line ~character:0 in 
+        let endCharacter =
+            String.length @@ Vscode.TextLine.text @@ Vscode.TextDocument.lineAt document ~line:end_line
+        in
+        let end_pos = Vscode.Position.make ~line:end_line ~character:endCharacter in 
+        Vscode.Range.makePositions ~start:start_pos ~end_:end_pos 
+    in 
+(*
   let range =
     match range with
     | Some range -> range
@@ -144,19 +165,25 @@ let indentRange
       (* selects entire document range *)
       Vscode.Range.makeCoordinates ~startLine:0 ~startCharacter:0 ~endLine ~endCharacter
   in
-  let input_text = Vscode.TextDocument.getText document ~range () in
+  *)
+  let (myrange:Cobol_indentation.Indenter.range option) = 
+    let start_pos = Vscode.Range.start range in 
+    let start_line = Vscode.Position.line start_pos + 1 in 
+    let end_pos = Vscode.Range.end_ range in 
+    let end_line = Vscode.Position.line end_pos + 1 in 
+    Some {start_line;end_line} 
+  in 
 
-  let output_text = "=---=" ^ input_text in
+  let filename = Vscode.TextDocument.fileName document in 
+  (*let input_text = Vscode.TextDocument.getText document ~range () in*)
+  let output_text = Cobol_indentation.Indenter.indent_file_free ~file:filename ~range:myrange in 
+
   let promise = Some [ Vscode.TextEdit.replace ~range ~newText:output_text ] in
-  (*
-   match output with
-    | Ok newText -> Some [ TextEdit.replace ~range ~newText ]
-    | Error msg ->
-      show_message `Error "Dune formatting failed: %s" msg;
-      Some []
-*)
+
   `Value promise
 
+
+(*
 let client = ref None
 
 let activate (extension : Vscode.ExtensionContext.t) =
@@ -203,7 +230,29 @@ let deactivate () =
 
 (* see {{:https://code.visualstudio.com/api/references/vscode-api#Extension}
    activate() *)
+*)
+
+
+let activate (extension: Vscode.ExtensionContext.t) =
+
+(*    let _cmd1 = Vscode.Command.create ~title:"title_newcmd" ~command:"newcmd" 
+    (print_endline "hello") in 
+*)
+
+    let providerFull = 
+        Vscode.DocumentFormattingEditProvider.create 
+        ~provideDocumentFormattingEdits: (indentRange)
+    in 
+    
+    let disposable = Vscode.Languages.registerDocumentFormattingEditProvider
+        ~selector: ( `Filter (Vscode.DocumentFilter.create ~scheme:"file" ~language:"cobol" ()))
+        ~provider:providerFull
+    in
+    
+    Vscode.ExtensionContext.subscribe extension ~disposable
+    
+let deactivate () = ()    
+   
 let () =
   Js_of_ocaml.Js.(export "activate" (wrap_callback activate));
   Js_of_ocaml.Js.(export "deactivate" (wrap_callback deactivate))
-

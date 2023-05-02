@@ -5,7 +5,7 @@ version:0.9.0
 
 # hash of toml configuration files
 # used for generation of all files
-2286c35e1ea29c82696bcde84496f156:.
+b35b0c05e41c101bc1fcb82fa4b5cc5e:.
 # end context for .
 
 # begin context for .github/workflows/workflow.yml
@@ -30,7 +30,7 @@ d00f73c835ae4a1589d55ebda4ab381b:CHANGES.md
 
 # begin context for Makefile
 # file Makefile
-d768fb221fd49646ac83e91c15640e63:Makefile
+aea9a402c9521e5096fe7d90ba52c7c7:Makefile
 # end context for Makefile
 
 # begin context for README.md
@@ -50,7 +50,7 @@ edfecf246f5178999b757bb30a11aaba:drom.toml
 
 # begin context for dune-project
 # file dune-project
-8025269a065c6464908d6c6a5986c3fe:dune-project
+b1452e025edbb9a30c61f6c1a8adb86c:dune-project
 # end context for dune-project
 
 # begin context for opam/interop-js-stubs.opam
@@ -75,7 +75,7 @@ f9e64ee80e101f435248cab1582af699:opam/polka-js-stubs.opam
 
 # begin context for opam/superbol-vscode-extension.opam
 # file opam/superbol-vscode-extension.opam
-c32800ad616a3e394ed271d057f6a2aa:opam/superbol-vscode-extension.opam
+de18bd239b37cf83be20959f6ed5bf89:opam/superbol-vscode-extension.opam
 # end context for opam/superbol-vscode-extension.opam
 
 # begin context for opam/vscode-js-stubs.opam
@@ -230,7 +230,7 @@ a18d965350ea19e9be91b3784887f1ef:src/vscode-json/dune
 
 # begin context for src/vscode-package-json/linking_flags.sh
 # file src/vscode-package-json/linking_flags.sh
-c7aa7ad8967d43dd0e7ea2f013af7376:src/vscode-package-json/linking_flags.sh
+9fdfca3cc53df639758ff04fe09d3243:src/vscode-package-json/linking_flags.sh
 # end context for src/vscode-package-json/linking_flags.sh
 
 # begin context for src/vscode-package-json/version.mlt

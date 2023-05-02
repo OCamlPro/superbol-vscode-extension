@@ -2,6 +2,6 @@
 (env
 
 )
-(dirs share src test vendors )
+(dirs padbol share src test vendors )
 
 

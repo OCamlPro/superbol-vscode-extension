@@ -2,7 +2,7 @@ PROJECT=superbol_vscode_extension
 SRCDIR=src/superbol-vscode-extension
 
 compile:
-	opam exec -- dune build
+	opam exec -- dune build @install
 	cp -f _build/default/src/vscode-package-json/main.exe vscode-package-json
 	yarn esbuild _build/default/$(SRCDIR)/$(PROJECT).bc.js \
                 --bundle \
