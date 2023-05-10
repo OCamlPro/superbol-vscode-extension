@@ -22,6 +22,7 @@ _build
 /yarn.lock
 /package-json
 ATTIC
+/emacs/lsp-superbol-customs.el
 /out
 !.vscode/tasks.json
 !.vscode/launch.json

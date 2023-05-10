@@ -65,6 +65,20 @@ In the `superbol` field past the path to the `superbol` executable.
 
 You can check the documentation on using the extension on [this page](https://ocamlpro.github.io/superbol-vscode-platform/sphinx).
 
+### GNU/Emacs mode
+
+* An experimental mode for GNU/Emacs, that is based on [lsp-mode](https://github.com/emacs-lsp/lsp-mode), is provided. It can be tested via the following commands:
+
+```shell
+# Derive customization variables from "package.json"
+make emacs/lsp-superbol-customs.el
+# Setup path to superbol directory, where the "padbol" executable can be found
+export SUPERBOL_DIR="$HOME/work/repos/superbol";
+# Launch an Emacs with LSP-mode autoloads and superbol-mode triggered for default COBOL file extensions
+\emacs -q -L emacs --load superbol-mode --load lsp-mode-autoloads --eval "(custom-set-variables '(lsp-superbol-path \"$SUPERBOL_DIR\"))" --funcall superbol-mode-for-default-extensions
+# Then visit a COBOL file and have fun
+```
+
 ## Resources
 
 * Website: https://ocamlpro.github.io/superbol-vscode-platform

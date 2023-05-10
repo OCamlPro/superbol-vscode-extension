@@ -84,6 +84,7 @@ ATTIC
 !.vscode/tasks.json
 !.vscode/launch.json
 *.vsix
+/emacs/lsp-superbol-customs.el
 """
 
 [[package]]
