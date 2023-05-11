@@ -39,6 +39,9 @@ extensions."
     (set (make-local-variable 'comment-start) "*>")
     (set (make-local-variable 'comment-end) "")
 
+    ;; Forbid tabs in indentation (for now, that's a limitation of Superbol)
+    (set (make-local-variable 'indent-tabs-mode) nil)
+
     ;; Start the LSP client
     (lsp))
 
