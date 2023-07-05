@@ -1,4 +1,4 @@
-;;; lsp-superbol.el --- LSP client for Superbol COBOL -*- lexical-binding: t; -*-
+;;; lsp-superbol.el --- lsp-mode LSP client for Superbol COBOL -*- lexical-binding: t; -*-
 ;;
 ;;  Copyright (c) 2023 OCamlPro SAS
 ;;
@@ -8,16 +8,20 @@
 
 ;;; Commentary:
 
-;; LSP client for Superbol COBOL
+;; lsp-mode.el LSP client for Superbol COBOL
 
 ;;; Code:
 
+(unless (fboundp 'lsp-mode)
+  (load "lsp-mode-autoloads"))
+
 (require 'lsp-mode)
+(require 'superbol-mode)
 
 ;; ---
 
 (defgroup lsp-superbol nil
-  "Settings for the Superbol Language Server for COBOL."
+  "Settings for the Superbol Language Server for COBOL (lsp-mode)."
   :group 'lsp-mode
   :link '(url-link "https://github.com/OCamlPro/superbol-vscode-extension")
   :package-version '(lsp-mode . "8.0.1"))
@@ -43,6 +47,33 @@
   :activation-fn (lsp-activate-on "superbol" "cobol" "COBOL")
   :server-id 'superbol-ls
   ))
+
+;; ---
+
+;; (with-eval-after-load 'superbol-mode
+(add-to-list 'lsp-language-id-configuration '(superbol-mode . "cobol"))
+(add-to-list 'lsp-language-id-configuration '(cobol-mode    . "cobol"))
+
+(defun lsp-superbol--start ()
+  "Superbol LSP startup function for lsp-mode"
+
+  ;; Enable semantic tokens
+  (set (make-local-variable 'lsp-semantic-tokens-enable) t)
+
+  ;; Actually the LSP server
+  (lsp)
+
+  ;; (lsp-semantic-tokens-mode 1)
+
+  ;; Turn on fontification
+  (funcall font-lock-fontify-buffer-function))
+
+;; Autostart the LSP when entering superbol-mode
+(add-hook 'superbol-mode-hook #'lsp-superbol--start)
+
+;; Also load on cobol-mode
+(with-eval-after-load 'cobol-mode
+  (add-hook 'cobol-mode-hook #'lsp-superbol--start))
 
 ;; ---
 

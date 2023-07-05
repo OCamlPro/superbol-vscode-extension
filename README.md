@@ -74,9 +74,18 @@ You can check the documentation on using the extension on [this page](https://oc
 make emacs/lsp-superbol-customs.el
 # Setup path to superbol directory, where the "padbol" executable can be found
 export SUPERBOL_DIR="$HOME/work/repos/superbol";
-# Launch an Emacs with LSP-mode autoloads and superbol-mode triggered for default COBOL file extensions
-\emacs -q -L emacs --load superbol-mode --load lsp-mode-autoloads --eval "(custom-set-variables '(lsp-superbol-path \"$SUPERBOL_DIR\"))" --funcall superbol-mode-for-default-extensions
+# Launch an Emacs with an lsp-mode LSP for superbol-mode, triggered for some default COBOL file extensions
+\emacs -L emacs --load lsp-superbol --eval "(custom-set-variables '(lsp-superbol-path \"$SUPERBOL_DIR\"))" --funcall superbol-mode-enable-for-default-extensions
 # Then visit a COBOL file and have fun
+```
+
+* An alternative experimental mode for GNU/Emacs, based on [eglot](https://elpa.gnu.org/packages/eglot.html), is provided.  Test it via the following commands:
+
+```shell
+# Setup path to superbol directory, where the "padbol" executable can be found
+export SUPERBOL_DIR="$HOME/work/repos/superbol";
+# Launch an Emacs with eglot-based LSP for superbol-mode, triggered for some default COBOL file extensions
+\emacs -L emacs --load eglot-superbol --eval "(add-to-list 'exec-path \"$SUPERBOL_DIR\")" --funcall superbol-mode-enable-for-default-extensions
 ```
 
 ## Resources

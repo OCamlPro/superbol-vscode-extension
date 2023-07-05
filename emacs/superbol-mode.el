@@ -12,14 +12,8 @@
 
 ;;; Code:
 
-(require 'lsp-mode)
-(require 'lsp-superbol)
-
-(add-to-list 'lsp-language-id-configuration
-	     '(superbol-mode . "cobol"))
-
 ;; CHECKME: Force association right here?
-(defun superbol-mode-for-default-extensions ()
+(defun superbol-mode-enable-for-default-extensions ()
   "Automatically associate `superbol-mode` with a few common COBOL file
 extensions."
   (dolist (regex '("\\.[cC][oO][bB]\\'"
@@ -28,22 +22,20 @@ extensions."
     (add-to-list 'auto-mode-alist `(,regex . superbol-mode))))
 
 ;;;###autoload
-(define-derived-mode
-    superbol-mode prog-mode "Superbol"
-    "SUPERBOL mode is a major mode for handling COBOL files."
-    ;; XXX: could actually derive from cobol-mode, if available.
-    
-    ;; Straight from cobol-mode
-    (set (make-local-variable 'comment-start-skip)
-	 "\\(^.\\{6\\}\\*\\|\\*>\\)\\s-* *")
-    (set (make-local-variable 'comment-start) "*>")
-    (set (make-local-variable 'comment-end) "")
+(define-derived-mode superbol-mode prog-mode
+  "Superbol"
+  "SUPERBOL mode is a major mode for handling COBOL files.  It is mostly intended
+to be backed by an LSP."
+  ;; XXX: could actually derive from cobol-mode, if available.
 
-    ;; Forbid tabs in indentation (for now, that's a limitation of Superbol)
-    (set (make-local-variable 'indent-tabs-mode) nil)
+  ;; Straight from cobol-mode
+  (set (make-local-variable 'comment-start-skip)
+       "\\(^.\\{6\\}\\*\\|\\*>\\)\\s-* *")
+  (set (make-local-variable 'comment-start) "*>")
+  (set (make-local-variable 'comment-end) "")
 
-    ;; Start the LSP client
-    (lsp))
+  ;; Forbid tabs in indentation (for now, that's a limitation of Superbol)
+  (set (make-local-variable 'indent-tabs-mode) nil))
 
 ;; ---
 
